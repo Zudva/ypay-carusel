@@ -1,33 +1,45 @@
-
-
-// import carouselAnimation from "@/assets/lottie/Karusel.json";
 import mainAnimation from "@/assets/lottie/MAIN.json";
-import {LottieOptions, useLottie} from 'lottie-react';
+import { LottieOptions, useLottie } from 'lottie-react';
+import { useEffect } from 'react';
 
 const Carousel = () => {
-
     const mainOptions: LottieOptions = {
-        loop: true,
-        autoplay: true,
+        loop: false,
+        autoplay: false,
         animationData: mainAnimation,
     };
 
-    // const carouselOptions: LottieOptions = {
-    //     loop: true,
-    //     autoplay: true,
-    //     animationData: carouselAnimation, assetsPath: 'assets/images/',
-    // };
+    const lottieObj = useLottie(mainOptions);
+    // const Animation = useLottieInteractivity({
+    //     lottieObj,
+    //     mode: "cursor",
+    //     actions: [
+    //         {
+    //             type: "stop",
+    //             frames: [0],
+    //         },
+    //     ],
+    // });
 
-    const { View: main } = useLottie(mainOptions);
-    // const { View: carousel } = useLottie(carouselOptions);
+    useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key === "1") {
+                lottieObj.stop();
+                lottieObj.playSegments([0, 135], true);
+            }
+        };
+
+        window.addEventListener("keydown", handleKeyDown);
+        return () => {
+            window.removeEventListener("keydown", handleKeyDown);
+        };
+    }, [lottieObj]);
 
     return (
         <section className='relative'>
-            {/*<div className='relative z-10'>{carousel}</div>*/}
-            <div className='absolute top-0 left-0'>{main}</div>
+            <div className='absolute top-0 left-0'>{lottieObj.View}</div>
         </section>
     )
 }
 
-
-export default Carousel
+export default Carousel;
