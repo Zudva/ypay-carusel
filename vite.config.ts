@@ -15,10 +15,11 @@ export default defineConfig({
 			output: {
 				manualChunks: {
 					// Пример разделения кода для улучшения загрузки
-					vendor: ["react", "react-dom"],
+					vendor: ["react", "react-dom", 'lottie-react'],
 				},
 			},
 		},
+		chunkSizeWarningLimit: 1000 // Adjust the limit as needed
 	},
 	esbuild: {
 		jsxFactory: "React.createElement", // Оптимизация рендеринга JSX
