@@ -24,7 +24,7 @@ const countText = {
 }
 
 const Carousel = () => {
-    const [isReady, setIsReady] = useState(false)
+    const [isStartPlayed, setIsStartPlayed] = useState(false)
     const [isStarted, setIsStarted] = useState(false)
     const [isSelected, setIsSelected] = useState(false)
     const [currentFrame, setCurrentFrame] = useState(0)
@@ -40,7 +40,7 @@ const Carousel = () => {
 
     const startOptions: LottieOptions = {
         loop: false,
-        autoplay: true,
+        autoplay: false,
         animationData: startAnimation,
         assetsPath: '/lottie/Start/images/',
     }
@@ -112,10 +112,7 @@ const Carousel = () => {
     ]
 
     const startSound = () => {
-        startSoundRef.current?.play()
-        setTimeout(() => {
-            barabanSoundRef.current?.play()
-        }, 200)
+        barabanSoundRef.current?.play()
     }
 
     const handleReset = () => {
@@ -128,11 +125,10 @@ const Carousel = () => {
         }
         setCount(3)
         setIsLose(false)
-        setIsReady(false)
+        setIsStartPlayed(false)
         setCard(null)
         carouselRef.stop()
         startRef.stop()
-        startRef.play()
     }
 
     const handleWin = () => {
@@ -153,37 +149,49 @@ const Carousel = () => {
                     finishRef.animationContainerRef.current.hidden = false
                     finishRef.play()
                 }
-            }, 7500)
+            }, 5000)
             setTimeout(() => {
                 if (finishRef.animationContainerRef.current) {
                     finishRef.animationContainerRef.current.hidden = true
                     finishRef.stop()
                 }
                 handleReset()
-            }, 15000)
+            }, 10000)
+        }
+    }
+
+    const handleStart = () => {
+        startSound()
+        setIsStarted(true)
+        carouselRef.play()
+        // carouselRef.setSpeed(0.1)
+        setIsLose(false)
+        if (carouselRef.animationContainerRef.current) {
+            carouselRef.animationContainerRef.current.hidden = false
+        }
+        if (card?.ref.animationContainerRef.current) {
+            card.ref.animationContainerRef.current.hidden = true
+            card.ref.stop()
         }
     }
 
     const handleKeyDown = (event: KeyboardEvent) => {
         if (event.key === "1") {
-            console.log({isStarted, card, isSelected, isReady, count, isWin: card?.isWin, currentFrame})
-            if (isStarted && !card || isSelected || !isReady || count === 0) {
+            console.log({isStarted, card, isSelected, isStartPlayed, count, isWin: card?.isWin, currentFrame})
+
+            if (!isStartPlayed) {
+                startSoundRef.current?.play()
+                startRef.stop()
+                startRef.play()
+            }
+
+            if (isStarted && !card || isSelected || !isStartPlayed || count === 0) {
                 return
             }
 
             if (!isStarted) {
-                setIsStarted(true)
-                startSound()
-                carouselRef.play()
-                // carouselRef.setSpeed(0.1)
-                setIsLose(false)
-                if (carouselRef.animationContainerRef.current) {
-                    carouselRef.animationContainerRef.current.hidden = false
-                }
-                if (card?.ref.animationContainerRef.current) {
-                    card.ref.animationContainerRef.current.hidden = true
-                    card.ref.stop()
-                }
+                btnSoundRef.current?.play()
+                handleStart()
                 return
             }
 
@@ -221,10 +229,11 @@ const Carousel = () => {
     }
 
     const handleComplete = () => {
-        setIsReady(true)
+        setIsStartPlayed(true)
         if (startRef.animationContainerRef.current && carouselRef.animationContainerRef.current) {
             startRef.animationContainerRef.current.hidden = true
             carouselRef.animationContainerRef.current.hidden = false
+            handleStart()
         }
     }
 
