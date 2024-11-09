@@ -25,3 +25,6 @@ dist-ssr
 
 ./build/*
 ./dist/*
+./electron/*
+yarn.lock
+package-lock.json

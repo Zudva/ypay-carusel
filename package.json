@@ -3,12 +3,14 @@
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
+	"main": "electron/main.js",
 	"scripts": {
 		"dev": "vite",
 		"build": "tsc -b && vite build",
 		"lint": "eslint .",
 		"preview": "vite preview",
 		"build-win": "tsc && vite build --base=./ && cp -r ./build/* ./electron && electron-builder --win --x64"
+
 	},
 	"dependencies": {
 		"lottie-react": "^2.4.0",
@@ -16,11 +18,15 @@
 		"react-dom": "^18.3.1"
 	},
 	"devDependencies": {
+		"@electron/asar": "^3.2.17",
+		"@electron/osx-sign": "^1.3.1",
 		"@eslint/js": "^9.13.0",
 		"@types/react": "^18.3.12",
 		"@types/react-dom": "^18.3.1",
 		"@vitejs/plugin-react": "^4.3.3",
 		"autoprefixer": "^10.4.20",
+		"electron": "^33.2.0",
+		"electron-builder": "^25.1.8",
 		"eslint": "^9.13.0",
 		"eslint-plugin-react-hooks": "^5.0.0",
 		"eslint-plugin-react-refresh": "^0.4.14",
