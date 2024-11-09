@@ -5,6 +5,7 @@ import cardAnimation from "@/assets/lottie/Cardholder/data.json"
 import moneyAnimation from "@/assets/lottie/Dengi/data.json"
 import vetkaAnimation from "@/assets/lottie/Vetka/data.json"
 import ypayAnimation from "@/assets/lottie/Ypay/data.json"
+import finishAnimation from "@/assets/lottie/Finish/data.json"
 import {LottieOptions, LottieRefCurrentProps, useLottie} from 'lottie-react'
 import {useEffect, useRef, useState} from 'react'
 
@@ -85,6 +86,13 @@ const Carousel = () => {
         assetsPath: '/lottie/Ypay/images/',
         hidden: true
     }
+    const finishOptions: LottieOptions = {
+        loop: false,
+        autoplay: false,
+        animationData: finishAnimation,
+        assetsPath: '/lottie/Finish/images/',
+        hidden: true
+    }
 
     const startRef = useLottie(startOptions)
     const carouselRef = useLottie(carouselOptions)
@@ -93,13 +101,14 @@ const Carousel = () => {
     const moneyRef = useLottie(moneyOptions)
     const vetkaRef = useLottie(vetkaOptions)
     const ypayRef = useLottie(ypayOptions)
+    const finishRef = useLottie(finishOptions)
 
     const cards: ICard[] = [
         {from: 3, to: 29, ref: cardRef, isWin: false},
         {from: 33, to: 58, ref: monetaRef, isWin: false},
         {from: 63, to: 85, ref: vetkaRef, isWin: false},
         {from: 89, to: 115, ref: moneyRef, isWin: false},
-        {from: 118, to: 140, ref: ypayRef, isWin: true},
+        {from: 118, to: 143, ref: ypayRef, isWin: true},
     ]
 
     const startSound = () => {
@@ -136,8 +145,22 @@ const Carousel = () => {
         loseSoundRef.current?.play()
         setIsLose(true)
         setCount(prev => prev - 1)
+
         if (count === 1) {
-            setTimeout(handleReset, 10000)
+            setTimeout(() => {
+                if (finishRef.animationContainerRef.current && card?.ref.animationContainerRef.current) {
+                    card.ref.animationContainerRef.current.hidden = true
+                    finishRef.animationContainerRef.current.hidden = false
+                    finishRef.play()
+                }
+            }, 7500)
+            setTimeout(() => {
+                if (finishRef.animationContainerRef.current) {
+                    finishRef.animationContainerRef.current.hidden = true
+                    finishRef.stop()
+                }
+                handleReset()
+            }, 15000)
         }
     }
 
@@ -173,6 +196,7 @@ const Carousel = () => {
         const currCard = cards.find((fr) => frame >= fr.from && frame <= fr.to)
         setCurrentFrame(frame)
         setCard(currCard || null)
+        console.log(frame)
         // console.log({currentFrame, card, isSelected})
 
         if (
@@ -225,11 +249,11 @@ const Carousel = () => {
     }, [startRef])
 
     return (
-        <section className='relative w-screen h-screen bg-[url("/images/Gradient_v05_00000.png")] bg-cover'>
-            <div className='absolute top-0 left-0 w-screen h-screen flex justify-between'>
-                <div className='w-[15%] h-full backdrop-blur z-10'></div>
-                <div className='w-[15%] h-full backdrop-blur z-10'></div>
-            </div>
+        <section className='relative w-screen h-screen bg-[url("/images/background-start.png")] bg-cover'>
+            {/*<div className='absolute top-0 left-0 w-screen h-screen flex justify-between'>*/}
+            {/*    <div className='w-[15%] h-full backdrop-blur z-10'></div>*/}
+            {/*    <div className='w-[15%] h-full backdrop-blur z-10'></div>*/}
+            {/*</div>*/}
 
             {isLose &&
                 (<div className='absolute left-0 bottom-[170px] w-full text-center z-10 text-[100px] font-semibold'>
@@ -244,6 +268,7 @@ const Carousel = () => {
             <div className='absolute top-0 left-0'>{vetkaRef.View}</div>
             <div className='absolute top-0 left-0'>{moneyRef.View}</div>
             <div className='absolute top-0 left-0'>{ypayRef.View}</div>
+            <div className='absolute top-0 left-0'>{finishRef.View}</div>
 
             <audio ref={barabanSoundRef} className='hidden' src="/sounds/baraban.mp3" loop></audio>
             <audio ref={startSoundRef} className='hidden' src="/sounds/start.wav"></audio>
