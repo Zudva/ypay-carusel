@@ -104,11 +104,11 @@ const Carousel = () => {
     const finishRef = useLottie(finishOptions)
 
     const cards: ICard[] = [
-        {from: 3, to: 29, ref: cardRef, isWin: false},
+        {from: 4, to: 29, ref: cardRef, isWin: false},
         {from: 33, to: 58, ref: monetaRef, isWin: false},
-        {from: 63, to: 85, ref: vetkaRef, isWin: false},
+        {from: 62, to: 85, ref: vetkaRef, isWin: false},
         {from: 89, to: 115, ref: moneyRef, isWin: false},
-        {from: 118, to: 143, ref: ypayRef, isWin: true},
+        {from: 123, to: 143, ref: ypayRef, isWin: true},
     ]
 
     const startSound = () => {
