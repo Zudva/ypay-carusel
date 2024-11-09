@@ -175,6 +175,48 @@ const Carousel = () => {
         }
     }
 
+    const [isClicked, setIsClicked] = useState(false)
+    const handleRequest = () => {
+        fetch('http://localhost:3000/status').then(e => {
+            return e.json()
+        }).then(r => {
+            setIsClicked(!!r)
+        })
+    }
+    useEffect(() => {
+        const id = setInterval(() => {
+            handleRequest()
+        }, 500)
+
+        return () => {
+            clearInterval(id)
+        }
+    }, [])
+
+    useEffect(() => {
+        if (isClicked) {
+            console.log({isStarted, card, isSelected, isStartPlayed, count, isWin: card?.isWin, currentFrame})
+
+            if (!isStartPlayed) {
+                startSoundRef.current?.play()
+                startRef.stop()
+                startRef.play()
+            }
+
+            if (isStarted && !card || isSelected || !isStartPlayed || count === 0) {
+                return
+            }
+
+            if (!isStarted) {
+                btnSoundRef.current?.play()
+                handleStart()
+                return
+            }
+
+            setIsSelected(true)
+        }
+    }, [isClicked])
+
     const handleKeyDown = (event: KeyboardEvent) => {
         if (event.key === "1") {
             console.log({isStarted, card, isSelected, isStartPlayed, count, isWin: card?.isWin, currentFrame})

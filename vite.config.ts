@@ -6,6 +6,7 @@ import tsconfigPaths from "vite-tsconfig-paths";
 export default defineConfig({
 	plugins: [react(), tsconfigPaths()],
 	assetsInclude: ["**/*.lottie"], // Включаем Lottie-файлы в сборку
+	base: './',
 	build: {
 		outDir: "./build",
 		target: "esnext", // Используем последние возможности браузера для улучшения производительности
