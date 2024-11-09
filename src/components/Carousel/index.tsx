@@ -1,6 +1,10 @@
 import monetaAnimation from "@/assets/lottie/Moneta/data.json"
 import carouselAnimation from "@/assets/lottie/Karousel/data.json"
 import startAnimation from "@/assets/lottie/Start/data.json"
+import cardAnimation from "@/assets/lottie/Cardholder/data.json"
+import moneyAnimation from "@/assets/lottie/Dengi/data.json"
+import vetkaAnimation from "@/assets/lottie/Vetka/data.json"
+import ypayAnimation from "@/assets/lottie/Ypay/data.json"
 import {LottieOptions, LottieRefCurrentProps, useLottie} from 'lottie-react'
 import {useEffect, useRef, useState} from 'react'
 
@@ -53,14 +57,49 @@ const Carousel = () => {
         assetsPath: '/lottie/Moneta/images/',
         hidden: true
     }
+    const cardOptions: LottieOptions = {
+        loop: false,
+        autoplay: false,
+        animationData: cardAnimation,
+        assetsPath: '/lottie/Cardholder/images/',
+        hidden: true
+    }
+    const moneyOptions: LottieOptions = {
+        loop: false,
+        autoplay: false,
+        animationData: moneyAnimation,
+        assetsPath: '/lottie/Dengi/images/',
+        hidden: true
+    }
+    const vetkaOptions: LottieOptions = {
+        loop: false,
+        autoplay: false,
+        animationData: vetkaAnimation,
+        assetsPath: '/lottie/Vetka/images/',
+        hidden: true
+    }
+    const ypayOptions: LottieOptions = {
+        loop: false,
+        autoplay: false,
+        animationData: ypayAnimation,
+        assetsPath: '/lottie/Ypay/images/',
+        hidden: true
+    }
 
     const startRef = useLottie(startOptions)
     const carouselRef = useLottie(carouselOptions)
     const monetaRef = useLottie(monetaOptions)
+    const cardRef = useLottie(cardOptions)
+    const moneyRef = useLottie(moneyOptions)
+    const vetkaRef = useLottie(vetkaOptions)
+    const ypayRef = useLottie(ypayOptions)
 
     const cards: ICard[] = [
-        {from: 36, to: 60, ref: monetaRef, isWin: false},
-        // {from: 65, to: 79, ref: monetaRef, isWin: true},
+        {from: 3, to: 29, ref: cardRef, isWin: false},
+        {from: 33, to: 58, ref: monetaRef, isWin: false},
+        {from: 63, to: 85, ref: vetkaRef, isWin: false},
+        {from: 89, to: 115, ref: moneyRef, isWin: false},
+        {from: 118, to: 140, ref: ypayRef, isWin: true},
     ]
 
     const startSound = () => {
@@ -89,6 +128,7 @@ const Carousel = () => {
 
     const handleWin = () => {
         winSoundRef.current?.play()
+        setCount(0)
         setTimeout(handleReset, 10000)
     }
 
@@ -104,7 +144,7 @@ const Carousel = () => {
     const handleKeyDown = (event: KeyboardEvent) => {
         if (event.key === "1") {
             console.log({isStarted, card, isSelected, isReady, count, isWin: card?.isWin, currentFrame})
-            if (isStarted && !card || isSelected || !isReady || count === 0 || card?.isWin) {
+            if (isStarted && !card || isSelected || !isReady || count === 0) {
                 return
             }
 
@@ -129,29 +169,30 @@ const Carousel = () => {
     }
 
     const handleEnterFrame = (e: any) => {
-        setCurrentFrame(Number.parseInt(e.currentTime))
-        setCard(cards.find(
-            (frame) => currentFrame >= frame.from && currentFrame <= frame.to
-        ) || null)
+        const frame = Number.parseInt(e.currentTime)
+        const currCard = cards.find((fr) => frame >= fr.from && frame <= fr.to)
+        setCurrentFrame(frame)
+        setCard(currCard || null)
         // console.log({currentFrame, card, isSelected})
 
         if (
-            isSelected && card &&
-            currentFrame === card.to &&
+            isSelected && currCard &&
+            frame === currCard.to &&
             carouselRef.animationContainerRef.current &&
-            card.ref.animationContainerRef.current &&
+            currCard.ref.animationContainerRef.current &&
             barabanSoundRef.current
         ) {
+            console.log('capture', currCard, frame)
             setIsStarted(false)
             setIsSelected(false)
             barabanSoundRef.current.pause()
             barabanSoundRef.current.currentTime = 0
             carouselRef.pause()
             carouselRef.animationContainerRef.current.hidden = true
-            card.ref.animationContainerRef.current.hidden = false
-            card.ref.stop()
-            card.ref.play()
-            card.isWin ? handleWin() : handleLose()
+            currCard.ref.animationContainerRef.current.hidden = false
+            currCard.ref.stop()
+            currCard.ref.play()
+            currCard.isWin ? handleWin() : handleLose()
         }
     }
 
@@ -199,6 +240,10 @@ const Carousel = () => {
             <div className='absolute top-0 left-0'>{startRef.View}</div>
             <div className='absolute top-0 left-0'>{carouselRef.View}</div>
             <div className='absolute top-0 left-0'>{monetaRef.View}</div>
+            <div className='absolute top-0 left-0'>{cardRef.View}</div>
+            <div className='absolute top-0 left-0'>{vetkaRef.View}</div>
+            <div className='absolute top-0 left-0'>{moneyRef.View}</div>
+            <div className='absolute top-0 left-0'>{ypayRef.View}</div>
 
             <audio ref={barabanSoundRef} className='hidden' src="/sounds/baraban.mp3" loop></audio>
             <audio ref={startSoundRef} className='hidden' src="/sounds/start.wav"></audio>
