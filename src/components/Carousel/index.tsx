@@ -263,7 +263,7 @@ const Carousel = () => {
 
     const handleKeyDown = (event: KeyboardEvent) => {
         console.log(event.key)
-        if (event.key === "ArrowUp") {
+        if (event.key === "Key.page_up") {
             console.log({isStarted, card, isSelected, isStartPlayed, count, isWin: card?.isWin, currentFrame})
 
             if (!isStartPlayed) {
