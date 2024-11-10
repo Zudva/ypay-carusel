@@ -200,7 +200,7 @@ const Carousel = () => {
         }
     }
 
-    const [isClicked, setIsClicked] = useState(false)
+    // const [isClicked, setIsClicked] = useState(false)
 
     // SOCKET
     useEffect(() => {
