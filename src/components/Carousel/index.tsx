@@ -200,7 +200,7 @@ const Carousel = () => {
         }
     }
 
-    // const [isClicked, setIsClicked] = useState(false)
+    const [isClicked, setIsClicked] = useState(false)
 
     // SOCKET
     useEffect(() => {
@@ -211,26 +211,7 @@ const Carousel = () => {
         // Подписка на события от сервера
         socketConnection.on('status_update', (data: any) => {
             console.log("Новое сообщение от сервера:", data);
-            console.log({isStarted, card, isSelected, isStartPlayed, count, isWin: card?.isWin, currentFrame})
-
-            if (!isStartPlayed) {
-                startSoundRef.current?.play()
-                startRef.stop()
-                startRef.play()
-            }
-
-            if (isStarted && !card || isSelected || !isStartPlayed || count === 0) {
-                return
-            }
-
-            if (!isStarted) {
-                btnSoundRef.current?.play()
-                handleStart()
-                return
-            }
-
-            setIsSelected(true)
-            // setIsClicked(!!Number(data.status))
+            setIsClicked(!!Number(data.status))
         });
 
         // Очистка соединения при размонтировании компонента
@@ -299,29 +280,29 @@ const Carousel = () => {
     //     }
     // }, [])
 
-    // useEffect(() => {
-    //     if (isClicked) {
-    //         console.log({isStarted, card, isSelected, isStartPlayed, count, isWin: card?.isWin, currentFrame})
-    //
-    //         if (!isStartPlayed) {
-    //             startSoundRef.current?.play()
-    //             startRef.stop()
-    //             startRef.play()
-    //         }
-    //
-    //         if (isStarted && !card || isSelected || !isStartPlayed || count === 0) {
-    //             return
-    //         }
-    //
-    //         if (!isStarted) {
-    //             btnSoundRef.current?.play()
-    //             handleStart()
-    //             return
-    //         }
-    //
-    //         setIsSelected(true)
-    //     }
-    // }, [isClicked])
+    useEffect(() => {
+        if (isClicked) {
+            console.log({isStarted, card, isSelected, isStartPlayed, count, isWin: card?.isWin, currentFrame})
+
+            if (!isStartPlayed) {
+                startSoundRef.current?.play()
+                startRef.stop()
+                startRef.play()
+            }
+
+            if (isStarted && !card || isSelected || !isStartPlayed || count === 0) {
+                return
+            }
+
+            if (!isStarted) {
+                btnSoundRef.current?.play()
+                handleStart()
+                return
+            }
+
+            setIsSelected(true)
+        }
+    }, [isClicked])
 
     const handleKeyDown = (event: KeyboardEvent) => {
         if (event.key === "1") {
