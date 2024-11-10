@@ -337,14 +337,19 @@ const Carousel = () => {
     }
 
     useEffect(() => {
-        const carouselAnimation = carouselRef.animationItem
-        window.addEventListener("keydown", handleKeyDown)
-        carouselAnimation?.addEventListener('enterFrame', handleEnterFrame)
-
+        const carouselAnimation = carouselRef.animationItem;
+    
+        const handleEvent = (event: KeyboardEvent | MouseEvent) => handleKeyDown(event);
+    
+        window.addEventListener("keydown", handleEvent);
+        window.addEventListener("mousedown", handleEvent);
+        carouselAnimation?.addEventListener('enterFrame', handleEnterFrame);
+    
         return () => {
-            window.removeEventListener("keydown", handleKeyDown)
-            carouselAnimation?.removeEventListener('enterFrame', handleEnterFrame)
-        }
+            window.removeEventListener("keydown", handleEvent);
+            window.removeEventListener("mousedown", handleEvent);
+            carouselAnimation?.removeEventListener('enterFrame', handleEnterFrame);
+        };
     }, [carouselRef]);
 
     useEffect(() => {
