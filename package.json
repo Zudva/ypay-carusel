@@ -10,12 +10,12 @@
 		"lint": "eslint .",
 		"preview": "vite preview",
 		"build-win": "tsc && vite build --base=./ && cp -r ./build/* ./electron && electron-builder --win --x64"
-
 	},
 	"dependencies": {
 		"lottie-react": "^2.4.0",
 		"react": "^18.3.1",
-		"react-dom": "^18.3.1"
+		"react-dom": "^18.3.1",
+		"socket.io-client": "^4.8.1"
 	},
 	"devDependencies": {
 		"@electron/asar": "^3.2.17",

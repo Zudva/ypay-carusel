@@ -43,6 +43,9 @@ const Carousel = () => {
         autoplay: false,
         animationData: startAnimation,
         assetsPath: '/lottie/Start/images/',
+        rendererSettings: {
+            preserveAspectRatio: 'xMidYMid meet' // Сохраняет пропорции
+        }
     }
     const carouselOptions: LottieOptions = {
         loop: true,
@@ -50,48 +53,69 @@ const Carousel = () => {
         animationData: carouselAnimation,
         assetsPath: '/lottie/Karousel/images/',
         hidden: true,
+        rendererSettings: {
+            preserveAspectRatio: 'xMidYMid meet' // Сохраняет пропорции
+        }
     }
     const monetaOptions: LottieOptions = {
         loop: false,
         autoplay: false,
         animationData: monetaAnimation,
         assetsPath: '/lottie/Moneta/images/',
-        hidden: true
+        hidden: true,
+        rendererSettings: {
+            preserveAspectRatio: 'xMidYMid meet' // Сохраняет пропорции
+        }
     }
     const cardOptions: LottieOptions = {
         loop: false,
         autoplay: false,
         animationData: cardAnimation,
         assetsPath: '/lottie/Cardholder/images/',
-        hidden: true
+        hidden: true,
+        rendererSettings: {
+            preserveAspectRatio: 'xMidYMid meet' // Сохраняет пропорции
+        }
     }
     const moneyOptions: LottieOptions = {
         loop: false,
         autoplay: false,
         animationData: moneyAnimation,
         assetsPath: '/lottie/Dengi/images/',
-        hidden: true
+        hidden: true,
+        rendererSettings: {
+            preserveAspectRatio: 'xMidYMid meet' // Сохраняет пропорции
+        }
     }
     const vetkaOptions: LottieOptions = {
         loop: false,
         autoplay: false,
         animationData: vetkaAnimation,
         assetsPath: '/lottie/Vetka/images/',
-        hidden: true
+        hidden: true,
+        rendererSettings: {
+            preserveAspectRatio: 'xMidYMid meet' // Сохраняет пропорции
+        }
     }
     const ypayOptions: LottieOptions = {
         loop: false,
         autoplay: false,
         animationData: ypayAnimation,
         assetsPath: '/lottie/Ypay/images/',
-        hidden: true
+        hidden: true,
+        rendererSettings: {
+            preserveAspectRatio: 'xMidYMid meet' // Сохраняет пропорции
+        }
     }
     const finishOptions: LottieOptions = {
         loop: false,
         autoplay: false,
         animationData: finishAnimation,
         assetsPath: '/lottie/Finish/images/',
-        hidden: true
+        hidden: true,
+        rendererSettings: {
+            preserveAspectRatio: 'xMidYMid meet' // Сохраняет пропорции
+        }
     }
 
     const startRef = useLottie(startOptions)
@@ -176,11 +200,31 @@ const Carousel = () => {
     }
 
     const [isClicked, setIsClicked] = useState(false)
+
+    // SOCKET
+    // useEffect(() => {
+    //     // Устанавливаем соединение при монтировании компонента
+    //     const socketConnection = io('http://localhost:5000');
+    //     // setSocket(socketConnection);
+    //
+    //     // Подписка на события от сервера
+    //     socketConnection.on('status_update', (data: any) => {
+    //         console.log("Новое сообщение от сервера:", data);
+    //         setIsClicked(!!data.status)
+    //     });
+    //
+    //     // Очистка соединения при размонтировании компонента
+    //     return () => {
+    //         socketConnection.disconnect();
+    //     };
+    // }, []);
+
+    //REST
     const handleRequest = () => {
         fetch('http://localhost:3000/status').then(e => {
             return e.json()
         }).then(r => {
-            setIsClicked(!!r)
+            setIsClicked(!!r.status)
         })
     }
     useEffect(() => {
