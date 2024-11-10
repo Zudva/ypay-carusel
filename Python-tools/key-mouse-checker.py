@@ -4,25 +4,30 @@ import logging
 # Настройка логирования
 logging.basicConfig(filename="input_log.txt", level=logging.INFO, format="%(asctime)s - %(message)s")
 
+def log_event(message):
+    """Логирование событий в файл и вывод в консоль"""
+    logging.info(message)
+    print(message)
+
 def on_key_press(key):
     try:
-        logging.info(f"Key pressed: {key.char}")
+        log_event(f"Key pressed: {key.char}")
     except AttributeError:
-        logging.info(f"Special key pressed: {key}")
+        log_event(f"Special key pressed: {key}")
 
 def on_key_release(key):
-    logging.info(f"Key released: {key}")
+    log_event(f"Key released: {key}")
     if key == keyboard.Key.esc:
         return False
 
 def on_click(x, y, button, pressed):
     if pressed:
-        logging.info(f"Mouse clicked at ({x}, {y}) with {button}")
+        log_event(f"Mouse clicked at ({x}, {y}) with {button}")
     else:
-        logging.info(f"Mouse released at ({x}, {y}) with {button}")
+        log_event(f"Mouse released at ({x}, {y}) with {button}")
 
 def on_scroll(x, y, dx, dy):
-    logging.info(f"Mouse scrolled at ({x}, {y}) with delta ({dx}, {dy})")
+    log_event(f"Mouse scrolled at ({x}, {y}) with delta ({dx}, {dy})")
 
 try:
     # Запуск слушателей клавиатуры и мыши
@@ -31,5 +36,5 @@ try:
         key_listener.join()
         mouse_listener.join()
 except KeyboardInterrupt:
-    logging.info("Script terminated by Ctrl + C")
+    log_event("Script terminated by Ctrl + C")
     print("\nScript terminated by Ctrl + C")
