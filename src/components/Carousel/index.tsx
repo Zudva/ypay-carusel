@@ -8,6 +8,7 @@ import ypayAnimation from "@/assets/lottie/Ypay/data.json"
 import finishAnimation from "@/assets/lottie/Finish/data.json"
 import {LottieOptions, LottieRefCurrentProps, useLottie} from 'lottie-react'
 import {useEffect, useRef, useState} from 'react'
+import {io} from "socket.io-client";
 
 interface ICard {
     from: number
@@ -202,40 +203,40 @@ const Carousel = () => {
     const [isClicked, setIsClicked] = useState(false)
 
     // SOCKET
-    // useEffect(() => {
-    //     // Устанавливаем соединение при монтировании компонента
-    //     const socketConnection = io('http://localhost:5000');
-    //     // setSocket(socketConnection);
-    //
-    //     // Подписка на события от сервера
-    //     socketConnection.on('status_update', (data: any) => {
-    //         console.log("Новое сообщение от сервера:", data);
-    //         setIsClicked(!!data.status)
-    //     });
-    //
-    //     // Очистка соединения при размонтировании компонента
-    //     return () => {
-    //         socketConnection.disconnect();
-    //     };
-    // }, []);
+    useEffect(() => {
+        // Устанавливаем соединение при монтировании компонента
+        const socketConnection = io('http://localhost:5000');
+        // setSocket(socketConnection);
+
+        // Подписка на события от сервера
+        socketConnection.on('status_update', (data: any) => {
+            console.log("Новое сообщение от сервера:", data);
+            setIsClicked(!!Number(data.status))
+        });
+
+        // Очистка соединения при размонтировании компонента
+        return () => {
+            socketConnection.disconnect();
+        };
+    }, []);
 
     //REST
-    const handleRequest = () => {
-        fetch('http://localhost:5000/status').then(e => {
-            return e.json()
-        }).then(r => {
-            setIsClicked(!!Number(r.status))
-        })
-    }
-    useEffect(() => {
-        const id = setInterval(() => {
-            handleRequest()
-        }, 500)
-
-        return () => {
-            clearInterval(id)
-        }
-    }, [])
+    // const handleRequest = () => {
+    //     fetch('http://localhost:5000/status').then(e => {
+    //         return e.json()
+    //     }).then(r => {
+    //         setIsClicked(!!Number(r.status))
+    //     })
+    // }
+    // useEffect(() => {
+    //     const id = setInterval(() => {
+    //         handleRequest()
+    //     }, 500)
+    //
+    //     return () => {
+    //         clearInterval(id)
+    //     }
+    // }, [])
 
     useEffect(() => {
         if (isClicked) {
