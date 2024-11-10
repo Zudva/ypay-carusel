@@ -8,7 +8,6 @@ import ypayAnimation from "@/assets/lottie/Ypay/data.json"
 import finishAnimation from "@/assets/lottie/Finish/data.json"
 import {LottieOptions, LottieRefCurrentProps, useLottie} from 'lottie-react'
 import {useEffect, useRef, useState} from 'react'
-import {io} from "socket.io-client";
 
 interface ICard {
     from: number
@@ -203,22 +202,64 @@ const Carousel = () => {
     const [isClicked, setIsClicked] = useState(false)
 
     // SOCKET
+    // useEffect(() => {
+    //     // Устанавливаем соединение при монтировании компонента
+    //     const socketConnection = io('http://localhost:5000');
+    //     // setSocket(socketConnection);
+    //
+    //     // Подписка на события от сервера
+    //     socketConnection.on('status_update', (data: any) => {
+    //         console.log("Новое сообщение от сервера:", data);
+    //         setIsClicked(!!Number(data.status))
+    //     });
+    //
+    //     // Очистка соединения при размонтировании компонента
+    //     return () => {
+    //         socketConnection.disconnect();
+    //     };
+    // }, []);
+
+    // const [status, setStatus] = useState(null); // Хранение текущего статуса
+    // const [connectionStatus, setConnectionStatus] = useState('Connecting...'); // Состояние подключения
+
     useEffect(() => {
-        // Устанавливаем соединение при монтировании компонента
-        const socketConnection = io('http://localhost:5000');
-        // setSocket(socketConnection);
+        // Создание WebSocket подключения
+        const ws = new WebSocket('ws://localhost:5000/ws'); // Подключаемся к Flask WebSocket
 
-        // Подписка на события от сервера
-        socketConnection.on('status_update', (data: any) => {
-            console.log("Новое сообщение от сервера:", data);
-            setIsClicked(!!Number(data.status))
-        });
+        ws.onopen = () => {
+            console.log('Connected to WebSocket server');
+            // setConnectionStatus('Connected');
+        };
 
-        // Очистка соединения при размонтировании компонента
+        ws.onmessage = (event) => {
+            try {
+                const data = JSON.parse(event.data);
+                if (data.status_update) {
+                    console.log('Received status update:', data.status_update);
+                    // setStatus(data.status_update.status);
+                    setIsClicked(!!Number(data.status_update.status))
+                }
+            } catch (error) {
+                console.error('Error parsing message:', error);
+            }
+        };
+
+        ws.onclose = () => {
+            console.log('Disconnected from WebSocket server');
+            // setConnectionStatus('Disconnected');
+        };
+
+        ws.onerror = (error) => {
+            console.error('WebSocket error:', error);
+            // setConnectionStatus('Error');
+        };
+
+        // Очистка при размонтировании компонента
         return () => {
-            socketConnection.disconnect();
+            ws.close();
         };
     }, []);
+
 
     //REST
     // const handleRequest = () => {
