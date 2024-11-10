@@ -224,7 +224,7 @@ const Carousel = () => {
         fetch('http://localhost:5000/status').then(e => {
             return e.json()
         }).then(r => {
-            setIsClicked(!!r.status)
+            setIsClicked(!!Number(r.status))
         })
     }
     useEffect(() => {
