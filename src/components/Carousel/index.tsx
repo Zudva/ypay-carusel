@@ -261,28 +261,40 @@ const Carousel = () => {
         }
     }, [isClicked])
 
-    const handleKeyDown = (event: KeyboardEvent) => {
-        console.log(event.key)
-        if (event.type === "mousedown" || event.type === "mouseup" || event.type === "click" || event.type === "dblclick" || event.type === "mousemove" || event.type === "mouseenter" || event.type === "mouseleave" || event.type === "mouseover" || event.type === "mouseout" || event.type === "contextmenu" || event.key === "ArrowUp" || event.key === "ArrowDown" || event.key === "ArrowLeft" || event.key === "ArrowRight" || event.key === "PageUp" || event.key === "PageDown" || event.key === "Enter" || event.key === "Escape" || event.key === " " || event.key === "Tab" || event.key === "Control" || event.key === "ControlLeft" || event.key === "ControlRight" || event.key === "Button.left" || event.key === "Button.right" || event.key === "Button.middle") {
-            console.log({isStarted, card, isSelected, isStartPlayed, count, isWin: card?.isWin, currentFrame})
-
+    const handleKeyDown = (event: KeyboardEvent | MouseEvent) => {
+        console.log(event.type, event.key || `Button.${event.button}`);
+    
+        const keyEvents = [
+            "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", 
+            "PageUp", "PageDown", "Enter", "Escape", "Tab", 
+            "Control", "ControlLeft", "ControlRight"
+        ];
+    
+        const mouseEvents = ["mousedown", "mouseup", "click", "dblclick", "mousemove", "mouseenter", "mouseleave", "mouseover", "mouseout", "contextmenu"];
+        const mouseButtons = [0, 1, 2]; // 0 - left, 1 - middle, 2 - right
+    
+        if ((event instanceof KeyboardEvent && keyEvents.includes(event.key)) || 
+            (event instanceof MouseEvent && mouseEvents.includes(event.type) && mouseButtons.includes(event.button))) {
+            
+            console.log({ isStarted, card, isSelected, isStartPlayed, count, isWin: card?.isWin, currentFrame });
+    
             if (!isStartPlayed) {
-                startSoundRef.current?.play()
-                startRef.stop()
-                startRef.play()
+                startSoundRef.current?.play();
+                startRef.stop();
+                startRef.play();
             }
-
-            if (isStarted && !card || isSelected || !isStartPlayed || count === 0) {
-                return
+    
+            if ((isStarted && !card) || isSelected || !isStartPlayed || count === 0) {
+                return;
             }
-
+    
             if (!isStarted) {
-                btnSoundRef.current?.play()
-                handleStart()
-                return
+                btnSoundRef.current?.play();
+                handleStart();
+                return;
             }
-
-            setIsSelected(true)
+    
+            setIsSelected(true);
         }
     }
 
