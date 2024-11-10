@@ -221,7 +221,7 @@ const Carousel = () => {
 
     //REST
     const handleRequest = () => {
-        fetch('http://localhost:3000/status').then(e => {
+        fetch('http://localhost:5000/status').then(e => {
             return e.json()
         }).then(r => {
             setIsClicked(!!r.status)
