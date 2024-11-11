@@ -383,7 +383,7 @@ const Carousel = () => {
             <div className='absolute top-0 left-0'>{ypayRef.View}</div>
             <div className='absolute top-0 left-0'>{finishRef.View}</div>
 
-            <audio ref={barabanSoundRef} className='hidden' src="/sounds/baraban.mp3" loop></audio>
+            <audio ref={barabanSoundRef} className='hidden' src="/sounds/baraban.wav" loop></audio>
             <audio ref={startSoundRef} className='hidden' src="/sounds/start.wav"></audio>
             <audio ref={loseSoundRef} className='hidden' src="/sounds/lose.wav"></audio>
             <audio ref={winSoundRef} className='hidden' src="/sounds/win.wav"></audio>
