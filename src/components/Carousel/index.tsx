@@ -199,7 +199,7 @@ const Carousel = () => {
         }
     }
 
-    const [isClicked, setIsClicked] = useState(false)
+    // const [isClicked, setIsClicked] = useState(false)
 
     // SOCKET
     // useEffect(() => {
@@ -220,49 +220,49 @@ const Carousel = () => {
     // }, []);
 
     //REST
-    const handleRequest = () => {
-        fetch('http://localhost:5000/status').then(e => {
-            return e.json()
-        }).then(r => {
-            setIsClicked(!!Number(r.status))
-        })
-    }
-    useEffect(() => {
-        const id = setInterval(() => {
-            handleRequest()
-        }, 500)
-
-        return () => {
-            clearInterval(id)
-        }
-    }, [])
-
-    useEffect(() => {
-        if (isClicked) {
-            console.log({isStarted, card, isSelected, isStartPlayed, count, isWin: card?.isWin, currentFrame})
-
-            if (!isStartPlayed) {
-                startSoundRef.current?.play()
-                startRef.stop()
-                startRef.play()
-            }
-
-            if (isStarted && !card || isSelected || !isStartPlayed || count === 0) {
-                return
-            }
-
-            if (!isStarted) {
-                btnSoundRef.current?.play()
-                handleStart()
-                return
-            }
-
-            setIsSelected(true)
-        }
-    }, [isClicked])
+    // const handleRequest = () => {
+    //     fetch('http://localhost:5000/status').then(e => {
+    //         return e.json()
+    //     }).then(r => {
+    //         setIsClicked(!!Number(r.status))
+    //     })
+    // }
+    // useEffect(() => {
+    //     const id = setInterval(() => {
+    //         handleRequest()
+    //     }, 500)
+    //
+    //     return () => {
+    //         clearInterval(id)
+    //     }
+    // }, [])
+    //
+    // useEffect(() => {
+    //     if (isClicked) {
+    //         console.log({isStarted, card, isSelected, isStartPlayed, count, isWin: card?.isWin, currentFrame})
+    //
+    //         if (!isStartPlayed) {
+    //             startSoundRef.current?.play()
+    //             startRef.stop()
+    //             startRef.play()
+    //         }
+    //
+    //         if (isStarted && !card || isSelected || !isStartPlayed || count === 0) {
+    //             return
+    //         }
+    //
+    //         if (!isStarted) {
+    //             btnSoundRef.current?.play()
+    //             handleStart()
+    //             return
+    //         }
+    //
+    //         setIsSelected(true)
+    //     }
+    // }, [isClicked])
 
     const handleKeyDown = (event: KeyboardEvent | MouseEvent) => {
-        console.log(event.type, event.key || `Button.${event.button}`);
+        console.log(event.type, (event as KeyboardEvent)?.key || `Button.${(event as MouseEvent)?.button}`);
     
         const keyEvents = [
             "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", 
@@ -273,8 +273,8 @@ const Carousel = () => {
         const mouseEvents = ["mousedown", "mouseup", "click", "dblclick", "mousemove", "mouseenter", "mouseleave", "mouseover", "mouseout", "contextmenu"];
         const mouseButtons = [0, 1, 2]; // 0 - left, 1 - middle, 2 - right
     
-        if ((event instanceof KeyboardEvent && keyEvents.includes(event.key)) || 
-            (event instanceof MouseEvent && mouseEvents.includes(event.type) && mouseButtons.includes(event.button))) {
+        if ((event instanceof KeyboardEvent && keyEvents.includes(event?.key)) ||
+            (event instanceof MouseEvent && mouseEvents.includes(event.type) && mouseButtons.includes(event?.button))) {
             
             console.log({ isStarted, card, isSelected, isStartPlayed, count, isWin: card?.isWin, currentFrame });
     
