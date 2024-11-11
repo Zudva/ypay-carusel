@@ -362,7 +362,7 @@ const Carousel = () => {
     }, [startRef])
 
     return (
-        <section className='relative w-screen h-screen bg-[url("/images/background-start.png")] bg-cover'>
+        <section className='relative w-screen h-screen bg-[url("/images/background-start.png")] max-w-[3840px] max-h-[2160px] bg-cover'>
             {/*<div className='absolute top-0 left-0 w-screen h-screen flex justify-between'>*/}
             {/*    <div className='w-[15%] h-full backdrop-blur z-10'></div>*/}
             {/*    <div className='w-[15%] h-full backdrop-blur z-10'></div>*/}
