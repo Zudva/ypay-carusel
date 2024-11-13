@@ -303,7 +303,7 @@ const Carousel = () => {
                 Осталось {count} {countText[count as keyof typeof countText]}
             </div>}
             {(isStarted && !isSelected) && <img
-                className='mb-[220px] w-[1164px] h-[1164px]'
+                className='mb-[140px] w-[1164px] h-[1164px]'
                 src="images/contur.png"
                 alt="contur"
             />}
