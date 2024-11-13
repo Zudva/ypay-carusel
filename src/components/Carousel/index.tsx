@@ -298,17 +298,15 @@ const Carousel = () => {
     }, [startRef])
 
     return (
-        <section className='relative w-screen h-screen bg-[url("/images/background-start.png")] bg-cover'>
-            {/*<div className='absolute top-0 left-0 w-screen h-screen flex justify-between'>*/}
-            {/*    <div className='w-[15%] h-full backdrop-blur z-10'></div>*/}
-            {/*    <div className='w-[15%] h-full backdrop-blur z-10'></div>*/}
-            {/*</div>*/}
-
-            {isLose &&
-                (<div className='absolute left-0 bottom-[170px] w-full text-center z-10 text-[100px] font-semibold'>
-                    Осталось {count} {countText[count as keyof typeof countText]}
-                </div>)
-            }
+        <section className='relative w-screen h-screen bg-[url("/images/background-start.png")] bg-cover flex justify-center items-center'>
+            {isLose && <div className='absolute left-0 bottom-[170px] w-full text-center z-10 text-[100px] font-semibold'>
+                Осталось {count} {countText[count as keyof typeof countText]}
+            </div>}
+            {(isStarted && !isSelected) && <img
+                className='mb-[220px] w-[1164px] h-[1164px]'
+                src="images/contur.png"
+                alt="contur"
+            />}
 
             <div className='absolute top-0 left-0'>{startRef.View}</div>
             <div className='absolute top-0 left-0'>{carouselRef.View}</div>
