@@ -42,7 +42,7 @@ const Carousel = () => {
         loop: false,
         autoplay: false,
         animationData: startAnimation,
-        assetsPath: '/lottie/Start/images/',
+        assetsPath: 'lottie/Start/images/',
         rendererSettings: {
             preserveAspectRatio: 'xMidYMid meet' // Сохраняет пропорции
         }
@@ -51,7 +51,7 @@ const Carousel = () => {
         loop: true,
         autoplay: false,
         animationData: carouselAnimation,
-        assetsPath: '/lottie/Karousel/images/',
+        assetsPath: 'lottie/Karousel/images/',
         hidden: true,
         rendererSettings: {
             preserveAspectRatio: 'xMidYMid meet' // Сохраняет пропорции
@@ -61,7 +61,7 @@ const Carousel = () => {
         loop: false,
         autoplay: false,
         animationData: monetaAnimation,
-        assetsPath: '/lottie/Moneta/images/',
+        assetsPath: 'lottie/Moneta/images/',
         hidden: true,
         rendererSettings: {
             preserveAspectRatio: 'xMidYMid meet' // Сохраняет пропорции
@@ -71,7 +71,7 @@ const Carousel = () => {
         loop: false,
         autoplay: false,
         animationData: cardAnimation,
-        assetsPath: '/lottie/Cardholder/images/',
+        assetsPath: 'lottie/Cardholder/images/',
         hidden: true,
         rendererSettings: {
             preserveAspectRatio: 'xMidYMid meet' // Сохраняет пропорции
@@ -81,7 +81,7 @@ const Carousel = () => {
         loop: false,
         autoplay: false,
         animationData: moneyAnimation,
-        assetsPath: '/lottie/Dengi/images/',
+        assetsPath: 'lottie/Dengi/images/',
         hidden: true,
         rendererSettings: {
             preserveAspectRatio: 'xMidYMid meet' // Сохраняет пропорции
@@ -91,7 +91,7 @@ const Carousel = () => {
         loop: false,
         autoplay: false,
         animationData: vetkaAnimation,
-        assetsPath: '/lottie/Vetka/images/',
+        assetsPath: 'lottie/Vetka/images/',
         hidden: true,
         rendererSettings: {
             preserveAspectRatio: 'xMidYMid meet' // Сохраняет пропорции
@@ -101,7 +101,7 @@ const Carousel = () => {
         loop: false,
         autoplay: false,
         animationData: ypayAnimation,
-        assetsPath: '/lottie/Ypay/images/',
+        assetsPath: 'lottie/Ypay/images/',
         hidden: true,
         rendererSettings: {
             preserveAspectRatio: 'xMidYMid meet' // Сохраняет пропорции
@@ -111,7 +111,7 @@ const Carousel = () => {
         loop: false,
         autoplay: false,
         animationData: finishAnimation,
-        assetsPath: '/lottie/Finish/images/',
+        assetsPath: 'lottie/Finish/images/',
         hidden: true,
         rendererSettings: {
             preserveAspectRatio: 'xMidYMid meet' // Сохраняет пропорции
@@ -199,68 +199,6 @@ const Carousel = () => {
         }
     }
 
-    // const [isClicked, setIsClicked] = useState(false)
-
-    // SOCKET
-    // useEffect(() => {
-    //     // Устанавливаем соединение при монтировании компонента
-    //     const socketConnection = io('http://localhost:5000');
-    //     // setSocket(socketConnection);
-    //
-    //     // Подписка на события от сервера
-    //     socketConnection.on('status_update', (data: any) => {
-    //         console.log("Новое сообщение от сервера:", data);
-    //         setIsClicked(!!data.status)
-    //     });
-    //
-    //     // Очистка соединения при размонтировании компонента
-    //     return () => {
-    //         socketConnection.disconnect();
-    //     };
-    // }, []);
-
-    //REST
-    // const handleRequest = () => {
-    //     fetch('http://localhost:5000/status').then(e => {
-    //         return e.json()
-    //     }).then(r => {
-    //         setIsClicked(!!Number(r.status))
-    //     })
-    // }
-    // useEffect(() => {
-    //     const id = setInterval(() => {
-    //         handleRequest()
-    //     }, 500)
-    //
-    //     return () => {
-    //         clearInterval(id)
-    //     }
-    // }, [])
-    //
-    // useEffect(() => {
-    //     if (isClicked) {
-    //         console.log({isStarted, card, isSelected, isStartPlayed, count, isWin: card?.isWin, currentFrame})
-    //
-    //         if (!isStartPlayed) {
-    //             startSoundRef.current?.play()
-    //             startRef.stop()
-    //             startRef.play()
-    //         }
-    //
-    //         if (isStarted && !card || isSelected || !isStartPlayed || count === 0) {
-    //             return
-    //         }
-    //
-    //         if (!isStarted) {
-    //             btnSoundRef.current?.play()
-    //             handleStart()
-    //             return
-    //         }
-    //
-    //         setIsSelected(true)
-    //     }
-    // }, [isClicked])
-
     const handleKeyDown = (event: KeyboardEvent | MouseEvent) => {
         console.log(event.type, (event as KeyboardEvent)?.key || `Button.${(event as MouseEvent)?.button}`);
     
@@ -303,8 +241,6 @@ const Carousel = () => {
         const currCard = cards.find((fr) => frame >= fr.from && frame <= fr.to)
         setCurrentFrame(frame)
         setCard(currCard || null)
-        console.log(frame)
-        // console.log({currentFrame, card, isSelected})
 
         if (
             isSelected && currCard &&
@@ -383,11 +319,11 @@ const Carousel = () => {
             <div className='absolute top-0 left-0'>{ypayRef.View}</div>
             <div className='absolute top-0 left-0'>{finishRef.View}</div>
 
-            <audio ref={barabanSoundRef} className='hidden' src="/sounds/baraban.wav" loop></audio>
-            <audio ref={startSoundRef} className='hidden' src="/sounds/start.wav"></audio>
-            <audio ref={loseSoundRef} className='hidden' src="/sounds/lose.wav"></audio>
-            <audio ref={winSoundRef} className='hidden' src="/sounds/win.wav"></audio>
-            <audio ref={btnSoundRef} className='hidden' src="/sounds/btn.wav"></audio>
+            <audio ref={barabanSoundRef} className='hidden' src="sounds/baraban.wav" loop></audio>
+            <audio ref={startSoundRef} className='hidden' src="sounds/start.wav"></audio>
+            <audio ref={loseSoundRef} className='hidden' src="sounds/lose.wav"></audio>
+            <audio ref={winSoundRef} className='hidden' src="sounds/win.wav"></audio>
+            <audio ref={btnSoundRef} className='hidden' src="sounds/btn.wav"></audio>
         </section>
     )
 }
